@@ -8,6 +8,7 @@ class Constants {
 
 
 
+
    static const TextStyle myStyle = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 15.0,

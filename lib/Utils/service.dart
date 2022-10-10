@@ -216,13 +216,14 @@ mixin Services {
       return catchError(e);
     }
   }
-  Future<Response?> apiGetRequests(String endPoint) async {
+  Future<Response?> apiGetRequests() async {
     try {
       Dio dio = await getDio();
-      Response response = await dio.get(endPoint,
-          options: Options(
-              headers: {"Authorization": "Bearer " + await getAuthToken()}));
-      //  debugPrint(response.data.toString());
+      Response response = await dio.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic'
+          // options: Options(
+          //     headers: {"Authorization": "Bearer " + await getAuthToken()})
+      );
+       // debugPrint(response.data.toString());
       return response;
     } on DioError catch (e) {
       return catchError(e);

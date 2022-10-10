@@ -13,32 +13,66 @@ class Alcohol extends StatefulWidget {
 }
 
 class _AlcoholState extends State<Alcohol> {
-  AuthRepo repo =  AuthRepo();
-  CockTailsModel cockTails = CockTailsModel();
+
+
+
+  getMeth()async{
+    await Provider.of<AuthProvider>(context,listen: false).getAlcoholicContent();
+  }
+  CockTailsModel drink = CockTailsModel();
+
+  AuthProvider? _authProvider;
+
+
+
+  Widget buildTodoItem(String todoText) {
+    return Consumer<AuthProvider>(
+        builder: (_, value, __){
+          return ListTile(
+            title: Text(todoText),
+
+          );}
+    );
+  }
+
   @override
   void initState() {
+    _authProvider = Provider.of<AuthProvider>(context,listen: false);
 
     super.initState();
-    context.read<AuthProvider>().getAlcoholicContent();
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: FutureBuilder(
-          future: context.read<AuthProvider>().getAlcoholicContent(),
+          future: _authProvider?.getAlcoholicDrinks(),
           builder: (context, snapshot){
             if (snapshot.connectionState== ConnectionState.done){
-              return ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Text("got null");
+              return Consumer<AuthProvider>(
+                builder: (_,value,__){
+                  final cockTailDrink = value.mapList;
+                  return  ListView.builder(
+                    itemCount: cockTailDrink.length,
+                    itemBuilder: (context, index) {
+                      final cocktail = cockTailDrink[index];
+                      return ListTile(
+                        title: Text(cocktail.toString()),
+                      );
+                    },
+                  );
                 },
               );
-            }return const Center(child: LinearProgressIndicator());
-          }
 
-      ),
+            }
+          return const Center(child: LinearProgressIndicator());
+          }
+          ),
+
+
     );
+
   }
 }

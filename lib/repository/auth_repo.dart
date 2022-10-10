@@ -4,11 +4,9 @@ import '../Utils/service.dart';
 
 class AuthRepo with Services {
 
-  Future<Response?> filterCockTail(String type) async {
+  Future<Response?> filterCockTail() async {
     Response? response = await apiGetRequests(
-      "filter.php?a=$type",
     );
-
     if (response != null) {
       return response;
     }
@@ -51,7 +49,7 @@ class AuthRepo with Services {
 
     if (response != null) {
 
-      print(response);
+
       return response;
     }
 

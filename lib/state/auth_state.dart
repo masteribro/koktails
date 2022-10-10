@@ -6,31 +6,41 @@ import 'package:dio/dio.dart';
 import '../Utils/LocalStorage.dart';
 
 AuthRepo authRepo= AuthRepo();
+
 class AuthProvider extends ChangeNotifier {
   bool _isLoadingPost = false;
   bool get isLoadingPost => _isLoadingPost;
   List _mapList = [];
   List get mapList => _mapList;
-   List _cocktails = [];
+  late List _json;
+  List get json => _json;
+  List _cocktails = [];
   List get cocktails => _cocktails;
+  late List cocktailContent;
+  var string;
 
-  Future<List<dynamic>?> getAlcoholicContent() async {
-    try {
-      _isLoadingPost = true;
-      notifyListeners();
-      Response? response = await authRepo.filterCockTail('Alcohol');
-      if (response != null && response.statusCode == 200) {
-        await LocalStorage().store('Alcohol', response.data['data']);
-        _mapList = await LocalStorage().fetch("Alcohol");
-        _cocktails = _mapList.map((e) => CockTailsModel(drinks: e['drinks'])).toList();
+CockTailsModel cockTailDrink = CockTailsModel();
+  // Drinks drinks = Drinks();
 
+  Future<Iterable> getAlcoholicContent() async {
+      Response? response = await authRepo.filterCockTail();
+      if (response != null) {
+        await LocalStorage().store('comment_data', response.data['drinks']);
+        _cocktails = await LocalStorage().fetch("comment_data");
+        string = _cocktails.map((product) => product['strDrink'],
+        );
+        print('nie$string');
+        return string;
       }
-    } catch (e) {}
+      throw 'something went wrong';
+  }
+  Future<void> getAlcoholicDrinks() async {
+    _isLoadingPost = true;
+    notifyListeners();
+    final response = await getAlcoholicContent();
+    _mapList= response.toList(growable: true);
     _isLoadingPost = false;
     notifyListeners();
-    print(_cocktails);
-    return  _cocktails;
-
   }
 
 
