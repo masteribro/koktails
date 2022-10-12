@@ -25,15 +25,7 @@ class _AlcoholState extends State<Alcohol> {
 
 
 
-  Widget buildTodoItem(String todoText) {
-    return Consumer<AuthProvider>(
-        builder: (_, value, __){
-          return ListTile(
-            title: Text(todoText),
 
-          );}
-    );
-  }
 
   @override
   void initState() {
@@ -60,6 +52,10 @@ class _AlcoholState extends State<Alcohol> {
                       final cocktail = cockTailDrink[index];
                       return ListTile(
                         title: Text(cocktail.toString()),
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.greenAccent,
+                          child: Text('${index + 1}'),
+                        ),
                       );
                     },
                   );
