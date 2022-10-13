@@ -18,13 +18,13 @@ class Home extends StatefulWidget {
 }
 class _HomeState extends State<Home> {
   AuthRepo repo =  AuthRepo();
+
   AuthProvider _authProvider = AuthProvider();
-var search = searchController;
+
   @override
   void initState() {
     super.initState();
     _authProvider = Provider.of<AuthProvider>(context,listen: false);
-
   }
   @override
   Widget build(BuildContext context) {

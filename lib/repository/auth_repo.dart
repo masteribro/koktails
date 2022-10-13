@@ -27,7 +27,8 @@ class AuthRepo with Services {
 
   Future<Response?> searchCocktail(String cocktail) async {
     Response? response = await apiGetRequests(
-        "search.php?s=$cocktail");
+        "search.php?s=$cocktail"
+    );
 
     if (response != null) {
       return response;
