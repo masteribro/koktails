@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:soccer_app/constants/colors.dart';
 
 import '../state/auth_state.dart';
 
@@ -16,18 +17,16 @@ class _SearchContentState extends State<SearchContent> {
 
   @override
   void initState() {
-
-    _authProvider = Provider.of<AuthProvider>(context,listen: false);
     super.initState();
-
+    _authProvider = Provider.of<AuthProvider>(context,listen: false);
   }
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent,
-        title: Text(_authProvider.searchedList[0]['strDrink']),
+        backgroundColor: AppColors.mainGreen,
+        title: Text('${_authProvider.searchedList[0]['strDrink']}'),
       ),
       body: Center(
         child: Padding(
@@ -48,9 +47,14 @@ class _SearchContentState extends State<SearchContent> {
                                   width: 300,
                                   height: 300,
                                   child: Image.network("${searchDrink[0]["strDrinkThumb"]}")
-
                               ),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
+                              Text("${searchDrink[0]["strIngredient1"]?? ''}"),
+                              Text("${searchDrink[0]["strIngredient2"]?? ''}"),
+                              Text("${searchDrink[0]["strIngredient3"]?? ''}"),
+                              Text("${searchDrink[0]["strIngredient4"]?? ''}"),
+                              Text("${searchDrink[0]["strIngredient5"]?? ''}"),
+                              Text("${searchDrink[0]["strIngredient6"]?? ''}"),
                               Text("${searchDrink[0]["strInstructions"]}"),
                             ],
                           );

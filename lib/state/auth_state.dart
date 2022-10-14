@@ -4,13 +4,7 @@ import 'package:soccer_app/Model/PreviewModel.dart';
 import 'package:soccer_app/Model/soccer_model.dart';
 import 'package:soccer_app/repository/auth_repo.dart';
 import 'package:dio/dio.dart';
-import '../Home.dart';
-import '../Utils/LocalStorage.dart';
 import '../constants/global variable.dart';
-
-
-
-
 class AuthProvider extends ChangeNotifier {
   bool _isLoadingPost = false;
   bool get isLoadingPost => _isLoadingPost;
@@ -31,34 +25,19 @@ class AuthProvider extends ChangeNotifier {
   var string3;
     PreviewModel? preview;
   AuthRepo authRepo= AuthRepo();
+  ListOfDrinks? get listOfDrinks => _listOfDrinks;
+  ListOfDrinks? _listOfDrinks;
 
 
-CockTailsModel cockTailDrink = CockTailsModel();
 
-  Future<Iterable> getAlcoholicContent() async {
-      Response? response =  alcoholicDrink == 1  ?  await authRepo.filterCockTail():await authRepo.filterNonAlcoholicCockTail();
-      if (response != null) {
-        _cocktails = response.data['drinks'];
-        string = _cocktails.map((product) => product,
-        );
-        return string;
+
+  Future<ListOfDrinks> getAlcoholicContent() async {
+      _listOfDrinks =  alcoholicDrink == 1  ?  await authRepo.filterCockTail():await authRepo.filterNonAlcoholicCockTail();
+      if (_listOfDrinks != null) {
+        return _listOfDrinks!;
       }
       throw 'something went wrong';
   }
-  Future<void> getAlcoholicDrinks() async {
-    _isLoadingPost = true;
-    notifyListeners();
-    final response = await getAlcoholicContent();
-    _mapList= response.toList(growable: true);
-    _isLoadingPost = false;
-    notifyListeners();
-  }
-  Future hassan () async{
-    preview = PreviewModel(name: mapList[0]['strDrink'], description: mapList[0]["strInstructions"]);
-    return preview!.name;
-  }
-
-
 
   Future<Iterable> searchDrink() async {
     Response? response =  await authRepo.searchCocktail(searchController.text);
@@ -66,9 +45,7 @@ CockTailsModel cockTailDrink = CockTailsModel();
       _search = response.data['drinks'];
       string3 = _search.map((product) => product,
       );
-      print('hello 3fkkh;ihhi${string3}');
       return string3;
-
     }
     throw 'something went wrong';
   }

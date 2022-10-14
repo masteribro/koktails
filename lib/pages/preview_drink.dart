@@ -25,14 +25,15 @@ class _PreviewCocktailState extends State<PreviewCocktail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
         title: Text(widget.previewModel),
       ),
        body: Column(
          mainAxisAlignment: MainAxisAlignment.center,
          children:  [
-           SizedBox(height: 20,),
+           const SizedBox(height: 20,),
            Image.network(widget.image),
-           SizedBox(height: 20,),
+           const SizedBox(height: 20,),
            Text(widget.description)
 
          ],

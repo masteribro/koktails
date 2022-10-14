@@ -1,25 +1,26 @@
 
 import 'package:dio/dio.dart';
+import 'package:soccer_app/Model/soccer_model.dart';
 import '../Utils/service.dart';
 
 class AuthRepo with Services {
 
-  Future<Response?> filterCockTail() async {
+  Future<ListOfDrinks?> filterCockTail() async {
     Response? response = await apiGetRequests(
       'filter.php?a=Alcoholic'
     );
     if (response != null) {
-      return response;
+      return ListOfDrinks.fromJson(response.data);
     }
 
     return null;
   }
-  Future<Response?> filterNonAlcoholicCockTail() async {
+  Future<ListOfDrinks?> filterNonAlcoholicCockTail() async {
     Response? response = await apiGetRequests(
         'filter.php?a=Non_Alcoholic'
     );
     if (response != null) {
-      return response;
+      return ListOfDrinks.fromJson(response.data);
     }
 
     return null;
