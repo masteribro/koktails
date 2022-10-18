@@ -30,12 +30,18 @@ class _AlcoholState extends State<Alcohol> {
     getContent =  _authProvider!.getAlcoholicContent();
     super.initState();
   }
+
   late Future<ListOfDrinks> getContent;
 ListOfDrinks list = ListOfDrinks();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.mainGreen,
+        centerTitle: true,
+        title: Text('List of Cocktails'),
+      ),
       body: FutureBuilder<ListOfDrinks>(
           future: getContent,
           builder: (context, snapshot){

@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   bool master = true;
   void navigateToNextPage(context) async {
     if(master == true){
-      Timer( const Duration(seconds: 26), () => Navigator.push(
+      Timer( const Duration(seconds: 26), () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => Home(
@@ -50,6 +50,8 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
 
         Image.asset('assets/images/image13.gif',
+          height: 200,
+          width: 200,
        ),
 
         const SizedBox(height: 30,),

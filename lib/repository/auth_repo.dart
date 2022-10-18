@@ -1,6 +1,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:soccer_app/Model/soccer_model.dart';
+import '../Model/PreviewModel.dart';
+import '../Model/randomCocktail.dart';
 import '../Utils/service.dart';
 
 class AuthRepo with Services {
@@ -25,14 +27,22 @@ class AuthRepo with Services {
 
     return null;
   }
-
-  Future<Response?> searchCocktail(String cocktail) async {
+  Future<RandomCocktail?> randomCockTail() async {
     Response? response = await apiGetRequests(
-        "search.php?s=$cocktail"
+        'random.php'
     );
-
     if (response != null) {
-      return response;
+      print("ghjgvj${response}");
+      return RandomCocktail.fromJson(response.data);
+    }
+    return null;
+  }
+  Future<SearchModel?> searchCocktail(String cocktail) async {
+    Response? response = await apiGetRequests(
+        'search.php?s=$cocktail'
+    );
+    if (response != null) {
+      return SearchModel.fromJson(response.data);
     }
     return null;
   }
@@ -42,7 +52,6 @@ class AuthRepo with Services {
     if (response != null) {
       return response;
     }
-
     return null;
   }
 

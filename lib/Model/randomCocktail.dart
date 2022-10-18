@@ -1,9 +1,9 @@
-class SearchModel {
+class RandomCocktail {
   List<Drinks>? drinks;
 
-  SearchModel({this.drinks});
+  RandomCocktail({this.drinks});
 
-  SearchModel.fromJson(Map<String, dynamic> json) {
+  RandomCocktail.fromJson(Map<String, dynamic> json) {
     if (json['drinks'] != null) {
       drinks = <Drinks>[];
       json['drinks'].forEach((v) {
@@ -54,9 +54,9 @@ class Drinks {
   Null? strIngredient13;
   Null? strIngredient14;
   Null? strIngredient15;
-  Null? strMeasure1;
+  String? strMeasure1;
   String? strMeasure2;
-  Null? strMeasure3;
+  String? strMeasure3;
   Null? strMeasure4;
   Null? strMeasure5;
   Null? strMeasure6;

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soccer_app/Model/PreviewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:soccer_app/constants/colors.dart';
 import '../state/auth_state.dart';
 
 class PreviewCocktail extends StatefulWidget {
@@ -25,16 +26,18 @@ class _PreviewCocktailState extends State<PreviewCocktail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: AppColors.mainGreen,
+        centerTitle: true,
         title: Text(widget.previewModel),
       ),
        body: Column(
          mainAxisAlignment: MainAxisAlignment.center,
          children:  [
            const SizedBox(height: 20,),
-           Image.network(widget.image),
+           Image.network(widget.image,),
            const SizedBox(height: 20,),
-           Text(widget.description)
+
+           Text(widget.description, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
 
          ],
        ),
