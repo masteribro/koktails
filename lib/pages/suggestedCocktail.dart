@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soccer_app/Model/randomCocktail.dart';
+import 'package:soccer_app/constants/colors.dart';
 import '../state/auth_state.dart';
 
 class SuggestedDrink extends StatefulWidget {
@@ -25,7 +26,34 @@ class _SuggestedDrinkState extends State<SuggestedDrink> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: AppColors.mainGreen,
+        title: FutureBuilder(
+          future: random,
+          builder: ( context,  snapshot)
+          {
+            if (snapshot.connectionState== ConnectionState.done) {
+              return Consumer<AuthProvider>(
+                  builder: (_,value,__){
+                    final randomDrink = value.random?.drinks?[0];
+                    return Text(randomDrink?.strDrink ?? "");
+                  }
+
+              );
+            } else if (snapshot.hasError) {
+              return Column(
+                children: [
+                  Text('${snapshot.error}'),
+                ],
+              );
+
+            }
+            return const CircularProgressIndicator();
+          },
+        )
+
+      ),
       body: Column(
         children:[
           FutureBuilder(
@@ -36,21 +64,23 @@ class _SuggestedDrinkState extends State<SuggestedDrink> {
                 return Consumer<AuthProvider>(
                     builder: (_,value,__){
                       final randomDrink = value.random?.drinks?[0];
-                      return Column(
-                        children: [
-                          Text(
-                            randomDrink?.idDrink ?? "",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          Container(
-                              width: 300,
-                              height: 300,
-                              child: Image.network("${randomDrink?.strDrinkThumb}")
-                          ),
+                      return Center(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Container(
+                                width: 300,
+                                height: 300,
+                                child: Image.network("${randomDrink?.strDrinkThumb}")
+                            ),
 
-                        ],
+                          ],
+                        ),
                       );
                     }
+
                 );
               } else if (snapshot.hasError) {
                 return Column(

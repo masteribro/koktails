@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:soccer_app/constants/colors.dart';
 import 'package:soccer_app/pages/preview_drink.dart';
 import '../Model/soccer_model.dart';
+import 'package:favorite_button/favorite_button.dart';
 
 import '../state/auth_state.dart';
 
@@ -32,7 +33,10 @@ class _AlcoholState extends State<Alcohol> {
   }
 
   late Future<ListOfDrinks> getContent;
-ListOfDrinks list = ListOfDrinks();
+  ListOfDrinks list = ListOfDrinks();
+  bool favorite = false;
+  int hassan = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +55,7 @@ ListOfDrinks list = ListOfDrinks();
                   return  ListView.builder(
                     itemCount: value.listOfDrinks?.drinks?.length,
                     itemBuilder: (context, index) {
-                      final cocktail = value.listOfDrinks?.drinks![index];
+                      var cocktail = value.listOfDrinks?.drinks![index];
                       return InkWell(
                         onTap: (){
                           Navigator.push(
@@ -64,7 +68,16 @@ ListOfDrinks list = ListOfDrinks();
                               )),
                             );
                         },
+
                         child: ListTile(
+                          trailing: FavoriteButton(
+                            iconColor: Colors.orangeAccent,
+                            iconSize: 30,
+                            isFavorite: false,
+                            // iconDisabledColor: Colors.white,
+                            valueChanged: (_isFavorite) {
+                            },
+                          ),
                           title: Text("${cocktail?.strDrink}"),
                           leading: CircleAvatar(
                             backgroundColor: AppColors.mainGreen,

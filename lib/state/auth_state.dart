@@ -9,6 +9,8 @@ import '../constants/global variable.dart';
 class AuthProvider extends ChangeNotifier {
   bool _isLoadingPost = false;
   bool get isLoadingPost => _isLoadingPost;
+  final bool _favourite = false;
+  bool get favourite => _favourite;
   List _mapList = [];
   List get mapList => _mapList;
   SearchModel? _search;
@@ -39,6 +41,7 @@ class AuthProvider extends ChangeNotifier {
       if (_listOfDrinks != null) {
         return _listOfDrinks!;
       }
+      notifyListeners();
       throw 'something went wrong';
   }
 
@@ -48,6 +51,7 @@ class AuthProvider extends ChangeNotifier {
 
       return  _search;
     }
+    notifyListeners();
     throw 'something went wrong';
   }
 
@@ -55,13 +59,11 @@ class AuthProvider extends ChangeNotifier {
   Future<RandomCocktail?> randomDrink() async {
     _random =  await authRepo.randomCockTail() ;
     notifyListeners();
-    print("hell$_random");
     if (_random != null) {
-
+      notifyListeners();
       return  _random;
-
     }
+    notifyListeners();
     throw 'something went wrong';
   }
-
 }

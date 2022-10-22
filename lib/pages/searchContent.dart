@@ -22,7 +22,9 @@ class _SearchContentState extends State<SearchContent> {
     _authProvider = Provider.of<AuthProvider>(context,listen: false);
     getContent = _authProvider.searchDrink();
 
+
   }
+
   late Future<SearchModel?> getContent;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,25 @@ class _SearchContentState extends State<SearchContent> {
       appBar: AppBar(
         backgroundColor: AppColors.mainGreen,
 
-        title: Text('${_authProvider.search?.drinks?[0].strDrink}'),
+        title: FutureBuilder(
+        future: getContent,
+        builder: (context, snapshot) {
+      if (snapshot.connectionState== ConnectionState.done) {
+         return Consumer<AuthProvider>(
+              builder: (_,value,__){
+               final title = value.search?.drinks?[0];
+                return Text('${title?.strDrink}');
+              },
+               );}else if (snapshot.hasError) {
+          return Column(
+          children: [
+          Text('${snapshot.error}'),
+          ],
+          );
+          }
+          return const CircularProgressIndicator();
+        },
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
