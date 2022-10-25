@@ -4,9 +4,14 @@ import 'package:soccer_app/Model/PreviewModel.dart';
 import 'package:soccer_app/Model/randomCocktail.dart';
 import 'package:soccer_app/Model/soccer_model.dart';
 import 'package:soccer_app/repository/auth_repo.dart';
-import 'package:dio/dio.dart';
 import '../constants/global variable.dart';
 class AuthProvider extends ChangeNotifier {
+  int hassan = 0;
+  var ibrahim;
+  bool _favorite = false;
+  bool get favorite => _favorite;
+  List _favoriteDrinks = [];
+  List get favoriteDrinks => _favoriteDrinks;
   bool _isLoadingPost = false;
   bool get isLoadingPost => _isLoadingPost;
   final bool _favourite = false;
@@ -55,6 +60,17 @@ class AuthProvider extends ChangeNotifier {
     throw 'something went wrong';
   }
 
+  void addToFavourites(String drink){
+    _favoriteDrinks.add(drink);
+    print(_favoriteDrinks);
+    notifyListeners();
+  }
+
+  void removeFromFavourites(String drink){
+    _favoriteDrinks.removeLast();
+    print(_favoriteDrinks);
+    notifyListeners();
+  }
 
   Future<RandomCocktail?> randomDrink() async {
     _random =  await authRepo.randomCockTail() ;
@@ -65,5 +81,19 @@ class AuthProvider extends ChangeNotifier {
     }
     notifyListeners();
     throw 'something went wrong';
+  }
+  void displayMessage(context, String text ) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 2),
+        shape:
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        content: Text(text,
+          style: TextStyle(color: Colors.black, fontSize: 20),
+        ),
+      ),
+    );
+
   }
 }

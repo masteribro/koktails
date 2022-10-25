@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soccer_app/Model/randomCocktail.dart';
+import 'package:soccer_app/Utils/progressBar.dart';
 import 'package:soccer_app/constants/colors.dart';
+import '../main.dart';
+import '../notification/Notification.dart';
 import '../state/auth_state.dart';
 
 class SuggestedDrink extends StatefulWidget {
@@ -21,6 +24,7 @@ class _SuggestedDrinkState extends State<SuggestedDrink> {
     super.initState();
 
   }
+  bool loading = true;
    Future <RandomCocktail?>? random;
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,6 @@ class _SuggestedDrinkState extends State<SuggestedDrink> {
                     final randomDrink = value.random?.drinks?[0];
                     return Text(randomDrink?.strDrink ?? "");
                   }
-
               );
             } else if (snapshot.hasError) {
               return Column(
@@ -49,7 +52,7 @@ class _SuggestedDrinkState extends State<SuggestedDrink> {
               );
 
             }
-            return const CircularProgressIndicator();
+            return const ProgressBar();
           },
         )
 

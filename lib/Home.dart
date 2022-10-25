@@ -10,7 +10,8 @@ import 'package:soccer_app/state/auth_state.dart';
 import 'package:provider/provider.dart';
 
 import 'constants/global variable.dart';
-
+import 'main.dart';
+import 'notification/Notification.dart';
 
 
 class Home extends StatefulWidget {
@@ -23,10 +24,12 @@ class _HomeState extends State<Home> {
 
   AuthProvider _authProvider = AuthProvider();
 
+
   @override
   void initState() {
     super.initState();
     _authProvider = Provider.of<AuthProvider>(context,listen: false);
+    Noti.initialize(flutterLocalNotificationsPlugin);
   }
   int intValue = 0;
   @override
@@ -77,16 +80,15 @@ class _HomeState extends State<Home> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                             child: TextField(
-                              cursorColor: AppColors.greyWhite,
+                              cursorColor: Colors.black12,
                               controller: searchController,
                               decoration: InputDecoration(
-
+                                filled: true,
+                                fillColor: AppColors.greyWhite,
                                 suffixIcon: InkWell(
-                                    onTap: ()=>Routers.push(context, SearchContent()),
+                                    onTap: ()=>Routers.push(context, const SearchContent()),
                                     child: const Icon(Icons.search,color: AppColors.bgGrey1,)),
-
                                 border: const OutlineInputBorder(
-
                                 ),
                                 hintText: 'Enter to search for a Cocktail',
                                 hintStyle: Theme.of(context).textTheme.caption?.copyWith(
@@ -110,9 +112,7 @@ class _HomeState extends State<Home> {
                 Expanded(
                     flex: 2,
                     child: Column(
-
                       children: [
-
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               primary: AppColors.mainGreen, // background
@@ -171,11 +171,16 @@ class _HomeState extends State<Home> {
                                 },
                                 child: const Text('Random Button'))
                           ],
-                        )
+                        ),
+                        ElevatedButton(
+                          onPressed: (){
+
+                            Noti.showBigTextNotification(title: "New message title", body: "Your long body", fln: flutterLocalNotificationsPlugin);
+                          }, child: Text("click"),
+                        ),
 
                       ],
                     )),
-
               ],
             ),
           )

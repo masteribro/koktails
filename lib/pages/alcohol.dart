@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:soccer_app/Utils/IconButton.dart';
 import 'package:soccer_app/constants/colors.dart';
 import 'package:soccer_app/pages/preview_drink.dart';
+import 'package:soccer_app/widget/favouriteButton.dart';
 import '../Model/soccer_model.dart';
-import 'package:favorite_button/favorite_button.dart';
-
+import '../Utils/router.dart';
 import '../state/auth_state.dart';
+import 'favouritePage.dart';
 
 class Alcohol extends StatefulWidget {
   const Alcohol({Key? key}) : super(key: key);
@@ -34,17 +36,24 @@ class _AlcoholState extends State<Alcohol> {
 
   late Future<ListOfDrinks> getContent;
   ListOfDrinks list = ListOfDrinks();
-  bool favorite = false;
-  int hassan = 0;
-
-
+  bool moh = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.mainGreen,
         centerTitle: true,
-        title: Text('List of Cocktails'),
+        title: const Text('List of Cocktails'),
+        actions:  [
+          InkWell(
+              onTap: (){
+                Routers.push(context, const FavoritePage());
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Icon(Icons.favorite),
+              ))
+        ],
       ),
       body: FutureBuilder<ListOfDrinks>(
           future: getContent,
@@ -70,12 +79,18 @@ class _AlcoholState extends State<Alcohol> {
                         },
 
                         child: ListTile(
-                          trailing: FavoriteButton(
-                            iconColor: Colors.orangeAccent,
-                            iconSize: 30,
-                            isFavorite: false,
-                            // iconDisabledColor: Colors.white,
-                            valueChanged: (_isFavorite) {
+                          trailing: FavouriteIcon(
+                            valueChanged: (bool currentState){
+                              value.hassan = index;
+                              value.ibrahim = value.listOfDrinks?.drinks![value.hassan].strDrink;
+                              if (currentState){
+                                value.removeFromFavourites(value.ibrahim);
+                                value.displayMessage(context, "Item removed");
+
+                              } else {
+                                value.addToFavourites(value.ibrahim);
+                                value.displayMessage(context, "Successfully added to your list");
+                              }
                             },
                           ),
                           title: Text("${cocktail?.strDrink}"),
@@ -91,14 +106,10 @@ class _AlcoholState extends State<Alcohol> {
                   );
                 },
               );
-
             }
-
           return const Center(child: LinearProgressIndicator());
           }
           ),
-
-
     );
 
   }

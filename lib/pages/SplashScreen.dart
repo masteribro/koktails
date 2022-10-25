@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:soccer_app/constants/colors.dart';
 
 import '../Home.dart';
+import '../main.dart';
+import '../notification/Notification.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -17,6 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
   bool master = true;
   void navigateToNextPage(context) async {
     if(master == true){
+      Noti.showBigTextNotification(title: "Welcome back", body: "Explore the world of koktails ", fln: flutterLocalNotificationsPlugin);
+
       Timer( const Duration(seconds: 26), () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -33,9 +37,9 @@ class _SplashScreenState extends State<SplashScreen> {
   var size,height,width;
   @override
   void initState() {
-
     super.initState();
     navigateToNextPage(context);
+    Noti.initialize(flutterLocalNotificationsPlugin);
   }
   @override
   Widget build(BuildContext context) {
