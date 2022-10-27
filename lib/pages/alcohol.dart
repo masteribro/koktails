@@ -5,20 +5,27 @@ import 'package:soccer_app/Utils/IconButton.dart';
 import 'package:soccer_app/constants/colors.dart';
 import 'package:soccer_app/pages/preview_drink.dart';
 import 'package:soccer_app/widget/favouriteButton.dart';
+import '../Controller/controller.dart';
 import '../Model/soccer_model.dart';
+import '../Utils/LocalStorage.dart';
 import '../Utils/router.dart';
+import '../Utils/validation.dart';
 import '../state/auth_state.dart';
 import 'favouritePage.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
 class Alcohol extends StatefulWidget {
   const Alcohol({Key? key}) : super(key: key);
 
   @override
-  State<Alcohol> createState() => _AlcoholState();
+  State createState() => _AlcoholState();
 }
 
-class _AlcoholState extends State<Alcohol> {
-
+class _AlcoholState extends StateMVC<Alcohol> with ValidationMixin {
+  _AlcoholState() : super(AuthController()) {
+    con = controller as AuthController;
+  }
+  late AuthController con;
 
 
   getMeth()async{
@@ -50,7 +57,7 @@ class _AlcoholState extends State<Alcohol> {
                 Routers.push(context, const FavoritePage());
               },
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: Icon(Icons.favorite),
               ))
         ],
@@ -80,15 +87,17 @@ class _AlcoholState extends State<Alcohol> {
 
                         child: ListTile(
                           trailing: FavouriteIcon(
+
                             valueChanged: (bool currentState){
+
                               value.hassan = index;
                               value.ibrahim = value.listOfDrinks?.drinks![value.hassan].strDrink;
                               if (currentState){
                                 value.removeFromFavourites(value.ibrahim);
-                                value.displayMessage(context, "Item removed");
 
+                                value.displayMessage(context, "Item removed");
                               } else {
-                                value.addToFavourites(value.ibrahim);
+                                var trending = value.addToFavourites(value.ibrahim);
                                 value.displayMessage(context, "Successfully added to your list");
                               }
                             },

@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../state/auth_state.dart';
 
 
 class FavouriteIcon extends StatefulWidget {
@@ -20,6 +18,7 @@ class _FavouriteIconState extends State<FavouriteIcon> {
   Widget build(BuildContext context) {
     return IconButton(
         onPressed :(){
+
           widget.valueChanged(moh);
           setState((){
             moh = !moh;
@@ -27,5 +26,4 @@ class _FavouriteIconState extends State<FavouriteIcon> {
         },
         icon: moh ? Icon(Icons.favorite,color: Colors.orangeAccent,):Icon(Icons.favorite,));
   }
-
 }

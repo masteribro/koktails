@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:soccer_app/Model/PreviewModel.dart';
 import 'package:soccer_app/Model/randomCocktail.dart';
 import 'package:soccer_app/Model/soccer_model.dart';
+import 'package:soccer_app/Utils/LocalStorage.dart';
 import 'package:soccer_app/repository/auth_repo.dart';
 import '../constants/global variable.dart';
 class AuthProvider extends ChangeNotifier {
@@ -60,18 +61,14 @@ class AuthProvider extends ChangeNotifier {
     throw 'something went wrong';
   }
 
-  void addToFavourites(String drink){
-    _favoriteDrinks.add(drink);
-    print(_favoriteDrinks);
-    notifyListeners();
+  addToFavourites(String drink){
+   _favoriteDrinks.add(drink);
+   LocalStorage().store('listOfTrendingDrinks', _favoriteDrinks);
   }
 
-  void removeFromFavourites(String drink){
-    _favoriteDrinks.removeLast();
-    print(_favoriteDrinks);
-    notifyListeners();
+   removeFromFavourites(String drink){
+    return _favoriteDrinks.removeLast();
   }
-
   Future<RandomCocktail?> randomDrink() async {
     _random =  await authRepo.randomCockTail() ;
     notifyListeners();
