@@ -28,10 +28,12 @@ class _FavoritePageState extends State<FavoritePage> {
         builder: (_,value,__)
           {return ListView.builder(
               padding: const EdgeInsets.all(8),
-              itemCount: value.favoriteDrinks.length,
+              itemCount:
+              value.favoriteDrinks.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  title: Text('${value.favoriteDrinks[index]}',
+                  title: Text(
+                      '${value.favoriteDrinks[index]}',
                   textAlign: TextAlign.center,),
                 );
 

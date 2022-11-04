@@ -5,14 +5,17 @@ import 'package:soccer_app/Model/randomCocktail.dart';
 import 'package:soccer_app/Model/soccer_model.dart';
 import 'package:soccer_app/Utils/LocalStorage.dart';
 import 'package:soccer_app/repository/auth_repo.dart';
+import '../Utils/FavouriteIcon.dart';
 import '../constants/global variable.dart';
 class AuthProvider extends ChangeNotifier {
   int hassan = 0;
   var ibrahim;
+  var stringOfId;
+  List <String> id = [];
   bool _favorite = false;
   bool get favorite => _favorite;
-  List _favoriteDrinks = [];
-  List get favoriteDrinks => _favoriteDrinks;
+  List<String> favoriteDrinks = [];
+
   bool _isLoadingPost = false;
   bool get isLoadingPost => _isLoadingPost;
   final bool _favourite = false;
@@ -38,7 +41,7 @@ class AuthProvider extends ChangeNotifier {
   AuthRepo authRepo= AuthRepo();
   ListOfDrinks? get listOfDrinks => _listOfDrinks;
   ListOfDrinks? _listOfDrinks;
-
+  FavouriteIcon? favouriteIcon;
 
 
 
@@ -62,15 +65,45 @@ class AuthProvider extends ChangeNotifier {
   }
 
   addToFavourites(String drink){
-   _favoriteDrinks.add(drink);
-   LocalStorage().store('listOfTrendingDrinks', _favoriteDrinks);
+   favoriteDrinks.add(drink);
+   LocalStorage.setFavorite(favoriteDrinks);
+   debugPrint("List of Favorites: $favoriteDrinks");
+   notifyListeners();
+  }
+   removeFromFavourites(String drink){
+    favoriteDrinks.remove(drink);
+
+    // for (int index = 0; index < favoriteDrinks.length; index++){
+    //   if (favoriteDrinks[index] == drink){
+    //     favoriteDrinks.removeAt(index);
+    //   }
+    // }
+
+    LocalStorage.setFavorite(favoriteDrinks);
+    debugPrint("List of Favorites: $favoriteDrinks");
+    // favoriteDrinks.clear();
+    notifyListeners();
   }
 
-   removeFromFavourites(String drink){
-    return _favoriteDrinks.removeLast();
+  changeIcon(String? idOfIcon){
+    id.add(idOfIcon!);
+    LocalStorage.setIcon(id);
+  }
+
+  removeIcon(String? idOfIcon){
+    id.remove(idOfIcon);
+    LocalStorage.setIcon(id);
+  }
+
+  bool changeIconBool(String? idOfIcon){
+    debugPrint("id contains at changeIconBool: $id");
+    if(id.contains(idOfIcon)) {
+      return true;
+    }
+    return false;
   }
   Future<RandomCocktail?> randomDrink() async {
-    _random =  await authRepo.randomCockTail() ;
+    _random =  await authRepo.randomCockTail();
     notifyListeners();
     if (_random != null) {
       notifyListeners();

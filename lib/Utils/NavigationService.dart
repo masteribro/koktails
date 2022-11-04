@@ -15,7 +15,7 @@ class NavigationService {
     AuthProvider authProvider = Provider.of<AuthProvider>(navigatorKey.currentContext!, listen: false);
 
 
-    await _appLocalStorage.store("access_token", "");
+    // await _appLocalStorage.store("access_token", "");
 
     return navigatorKey.currentState!.pushNamedAndRemoveUntil("/signin", (Route r) => r == null);
   }

@@ -290,7 +290,8 @@ mixin Services {
   }
 
   getAuthToken() async {
-    String? accessToken = await LocalStorage().fetch("access_token");
+    String? accessToken;
+    // = awaitLocalStorage().fetch("access_token");
 
     if (accessToken != null) {
       return accessToken;

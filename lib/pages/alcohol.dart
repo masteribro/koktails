@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soccer_app/Utils/IconButton.dart';
+import 'package:soccer_app/Utils/FavouriteIcon.dart';
 import 'package:soccer_app/constants/colors.dart';
 import 'package:soccer_app/pages/preview_drink.dart';
 import 'package:soccer_app/widget/favouriteButton.dart';
@@ -26,18 +26,18 @@ class _AlcoholState extends StateMVC<Alcohol> with ValidationMixin {
     con = controller as AuthController;
   }
   late AuthController con;
-
-
   getMeth()async{
     await Provider.of<AuthProvider>(context,listen: false).getAlcoholicContent();
   }
-
-
   AuthProvider? _authProvider;
+  FavouriteIcon? favouriteIcon;
   @override
   void initState() {
     _authProvider = Provider.of<AuthProvider>(context,listen: false);
     getContent =  _authProvider!.getAlcoholicContent();
+    _authProvider?.favoriteDrinks = LocalStorage.getList() ?? [];
+    _authProvider?.id = LocalStorage.getIcon() ?? [];
+    // favouriteIcon?.moh = LocalStorage.getFavouriteBool() ?? false;
     super.initState();
   }
 
@@ -87,19 +87,33 @@ class _AlcoholState extends StateMVC<Alcohol> with ValidationMixin {
 
                         child: ListTile(
                           trailing: FavouriteIcon(
-
+                            idOfIcon: value.listOfDrinks?.drinks![index].idDrink ?? "",
                             valueChanged: (bool currentState){
-
                               value.hassan = index;
+                              print(value.hassan);
                               value.ibrahim = value.listOfDrinks?.drinks![value.hassan].strDrink;
-                              if (currentState){
-                                value.removeFromFavourites(value.ibrahim);
+                              var stringOfId = value.listOfDrinks?.drinks![value.hassan].idDrink;
 
-                                value.displayMessage(context, "Item removed");
-                              } else {
-                                var trending = value.addToFavourites(value.ibrahim);
+                              print('yugeyg${value.ibrahim}');
+                              print("ugkdd${stringOfId}");
+
+                              if (currentState){
+                                value.addToFavourites(value.ibrahim);
+                                value.changeIcon(stringOfId);
                                 value.displayMessage(context, "Successfully added to your list");
+                              } else {
+                                value.removeFromFavourites(value.ibrahim);
+                                value.removeIcon(stringOfId);
+                                value.displayMessage(context, "Item removed");
                               }
+
+                              // if ( _authProvider?.changeIconBool(stringOfId) == true){
+                              //   print("CIB1: ${stringOfId}");
+                              //   print("changeIconBool is true");
+                              // } else {
+                              //   print("CIB2: ${stringOfId}");
+                              //   print("changeIconBool is false");
+                              // }
                             },
                           ),
                           title: Text("${cocktail?.strDrink}"),
