@@ -57,6 +57,7 @@ dev_dependencies:
   mvc_pattern: ^8.2.2
   another_flushbar: ^1.10.29
   shared_preferences: ^2.0.15
+  flutter_paystack: ^1.0.6
 
 
 
